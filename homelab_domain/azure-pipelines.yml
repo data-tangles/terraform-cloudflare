@@ -25,12 +25,12 @@ stages:
 
         steps:
 
-          - task: TerraformInstaller@0
+          - task: TerraformInstaller@1
             displayName: 'Terraform Install'
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
-  
-          - task: CmdLine@2       
+
+          - task: CmdLine@2
             inputs:
               script: |
                 terraform init -backend-config="/terraform/variables/terraform-cloudflare/homelab_domain/backend_cloudflare_homelab_domain.tf"
@@ -52,7 +52,7 @@ stages:
               tarCompression: 'gz'
               archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildNumber).tgz'
               replaceExistingArchive: true
-            
+
           - task: PublishPipelineArtifact@1
             condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
             displayName: 'Publish Plan Artifact'
@@ -65,7 +65,7 @@ stages:
     displayName: Homelab Domain Records Apply
 
     jobs:
-      - deployment: 'TerraformApplyHomelabDomainRecords'   
+      - deployment: 'TerraformApplyHomelabDomainRecords'
         displayName: ' Apply Terraform for Homelab Domain Records'
         pool: ${{ parameters.agentPool }}
         environment: 'Cloudflare'
@@ -74,11 +74,11 @@ stages:
             deploy:
               steps:
 
-              - task: TerraformInstaller@0
+              - task: TerraformInstaller@1
                 displayName: 'Terraform Install'
                 inputs:
                   terraformVersion: ${{ parameters.terraformVersion }}
-                  
+
               - task: ExtractFiles@1
                 displayName: 'Extract Plan Artifact'
                 inputs:
