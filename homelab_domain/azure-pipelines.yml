@@ -37,8 +37,8 @@ stages:
             inputs:
               rootDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
               targetFiles: |
-                '**/providers.tf'
-                '**/*.tfvars'
+                **/providers.tf
+                **/*.tfvars
               encoding: 'auto'
               tokenPattern: 'default'
               writeBOM: true
