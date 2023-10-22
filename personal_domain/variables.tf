@@ -1,3 +1,13 @@
+variable "backend_organization" {
+  type        = string
+  description = "Terraform Cloud organization name"
+}
+
+variable "backend_token" {
+  type        = string
+  description = "Terraform Cloud API Token"
+}
+
 variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token"

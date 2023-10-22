@@ -5,7 +5,13 @@ terraform {
       version = "4.17.0"
     }
   }
-  backend "remote" {}
+  backend "remote" {
+    organization = var.backend_orginization
+    workspaces {
+      name="terraform-cloudflare-personal-domain"
+    }
+    token = var.backend_token
+  }
 }
 
 terraform {

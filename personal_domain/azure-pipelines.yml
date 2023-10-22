@@ -1,3 +1,6 @@
+variables:
+  - group: terraform-cloudflare-personal-domain
+
 parameters:
   - name: terraformVersion
     type: string
@@ -30,16 +33,26 @@ stages:
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
 
+          - task: replacetokens@5
+            inputs:
+              rootDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
+              targetFiles: '**/*.tfvars'
+              encoding: 'auto'
+              tokenPattern: 'default'
+              writeBOM: true
+              actionOnMissing: 'warn'
+              enableTelemetry: false
+
           - task: CmdLine@2
             inputs:
               script: |
-                terraform init -backend-config="/terraform/variables/terraform-cloudflare/personal_domain/backend_cloudflare_personal_domain.tf"
+                terraform init
               workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
           - task: CmdLine@2
             inputs:
               script: |
-                terraform plan -var-file="/terraform/variables/terraform-cloudflare/personal_domain/personal_domain_vars.tfvars" -out ${BUILD_BUILDNUMBER}.tfplan
+                terraform plan -out ${BUILD_BUILDNUMBER}.tfplan
               workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
           - task: ArchiveFiles@2
