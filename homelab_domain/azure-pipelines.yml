@@ -46,12 +46,14 @@ stages:
               enableTelemetry: false
 
           - task: CmdLine@2
+            displayName: 'Terraform Init'
             inputs:
               script: |
                 terraform init
               workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
           - task: CmdLine@2
+            displayName: 'Terraform Plan'
             inputs:
               script: |
                 terraform plan -out ${BUILD_BUILDNUMBER}.tfplan
