@@ -1,8 +1,3 @@
-# Backend
-
-backend_organization = "#{backend_orginization}"
-backend_token = "#{backend_token}#"
-
 # API Token
 
 cloudflare_api_token = "#{cloudflare_api_token}#"

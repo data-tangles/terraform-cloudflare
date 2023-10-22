@@ -36,7 +36,9 @@ stages:
           - task: replacetokens@5
             inputs:
               rootDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
-              targetFiles: '**/*.tfvars'
+              targetFiles: |
+                'providers.tf'
+                '**/*.tfvars'
               encoding: 'auto'
               tokenPattern: 'default'
               writeBOM: true
