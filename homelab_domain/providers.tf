@@ -5,7 +5,13 @@ terraform {
       version = "4.17.0"
     }
   }
-  backend "remote" {}
+  backend "remote" {
+    organization = "#{backend_organization}#"
+    workspaces {
+      name = "terraform-cloudflare-homelab-domain"
+    }
+    token = "#{backend_token}#"
+  }
 }
 
 terraform {
