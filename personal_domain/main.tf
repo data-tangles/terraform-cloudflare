@@ -93,6 +93,26 @@ resource "cloudflare_record" "mx_record_1" {
   comment  = local.comment
 }
 
+resource "cloudflare_record" "mx_record_2" {
+  zone_id  = var.cloudflare_zone_id
+  name     = var.mx_record_2_name
+  value    = var.mx_record_2_value
+  priority = "20"
+  type     = "MX"
+  ttl      = 3600
+  comment  = local.comment
+}
+
+resource "cloudflare_record" "mx_record_3" {
+  zone_id  = var.cloudflare_zone_id
+  name     = var.mx_record_3_name
+  value    = var.mx_record_3_value
+  priority = "50"
+  type     = "MX"
+  ttl      = 3600
+  comment  = local.comment
+}
+
 # SRV Records
 
 resource "cloudflare_record" "srv_record_1" {

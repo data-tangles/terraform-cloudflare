@@ -32,6 +32,10 @@ cname_record_2_value = "#{cname_record_2_value}#"
 
 mx_record_1_name = "#{mx_record_1_name}#"
 mx_record_1_value = "#{mx_record_1_value}#"
+mx_record_2_name = "#{mx_record_2_name}#"
+mx_record_2_value = "#{mx_record_2_value}#"
+mx_record_3_name = "#{mx_record_3_name}#"
+mx_record_3_value = "#{mx_record_3_value}#"
 
 # SRV Records
 
