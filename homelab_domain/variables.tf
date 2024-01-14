@@ -98,6 +98,26 @@ variable "mx_record_1_value" {
   description = "Value of MX record"
 }
 
+variable "mx_record_2_name" {
+  type        = string
+  description = "Name of MX record"
+}
+
+variable "mx_record_2_value" {
+  type        = string
+  description = "Value of MX record"
+}
+
+variable "mx_record_3_name" {
+  type        = string
+  description = "Name of MX record"
+}
+
+variable "mx_record_3_value" {
+  type        = string
+  description = "Value of MX record"
+}
+
 variable "srv_record_1_name" {
   type        = string
   description = "Name of SRV record"
