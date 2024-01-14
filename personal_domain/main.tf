@@ -89,7 +89,7 @@ resource "cloudflare_record" "mx_record_1" {
   value    = var.mx_record_1_value
   priority = "10"
   type     = "MX"
-  ttl      = 360
+  ttl      = 3600
   comment  = local.comment
 }
 
@@ -99,7 +99,7 @@ resource "cloudflare_record" "mx_record_2" {
   value    = var.mx_record_2_value
   priority = "20"
   type     = "MX"
-  ttl      = 360
+  ttl      = 3600
   comment  = local.comment
 }
 
@@ -109,7 +109,7 @@ resource "cloudflare_record" "mx_record_3" {
   value    = var.mx_record_3_value
   priority = "50"
   type     = "MX"
-  ttl      = 360
+  ttl      = 3600
   comment  = local.comment
 }
 
