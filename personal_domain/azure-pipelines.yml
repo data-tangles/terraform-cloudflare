@@ -57,14 +57,13 @@ stages:
             displayName: 'TerraformPlan'
             inputs:
               script: |
-                terraform plan -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
+                terraform plan -input=false -no-color -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
 
-                retVal=$?
-                if [ $retVal -eq 2 ]; then
+                if [ $? -eq 2 ]; then
                   echo "##vso[task.setvariable variable=planChanged;isOutput=true]true"
                 else
                   echo "##vso[task.setvariable variable=planChanged;isOutput=true]false"
-                fi 
+                fi  
               workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
           - task: ArchiveFiles@2
