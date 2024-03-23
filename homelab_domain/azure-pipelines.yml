@@ -116,37 +116,4 @@ stages:
                     terraform apply ${BUILD_BUILDNUMBER}.tfplan
                   workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
-  - stage: 'HomelabDomainRecordsAutoApply'
-    dependsOn: 'HomelabDomainRecords'
-    condition: eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'false')
-    displayName: Homelab Domain Records Auto Apply
-
-    jobs:
-      - deployment: 'TerraformApplyHomelabDomainRecords'
-        displayName: ' Apply Terraform for Homelab Domain Records'
-        pool: ${{ parameters.agentPool }}
-        environment: 'Cloudflare'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-
-              - task: TerraformInstaller@1
-                displayName: 'Terraform Install'
-                inputs:
-                  terraformVersion: ${{ parameters.terraformVersion }}
-
-              - task: ExtractFiles@1
-                displayName: 'Extract Plan Artifact'
-                inputs:
-                  archiveFilePatterns: '$(Pipeline.Workspace)/cloudflare-homelab-domain-plan/$(Build.BuildNumber).tgz'
-                  destinationFolder: '$(System.DefaultWorkingDirectory)/homelab_domain/'
-                  cleanDestinationFolder: true
-
-              - task: CmdLine@2
-                inputs:
-                  script: |
-                    terraform apply ${BUILD_BUILDNUMBER}.tfplan
-                  workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
-
 
