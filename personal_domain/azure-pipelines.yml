@@ -30,6 +30,7 @@ stages:
 
           - task: TerraformInstaller@1
             displayName: 'Terraform Install'
+            name: 'terraformInstall'
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
 
@@ -47,7 +48,8 @@ stages:
               enableTelemetry: false
 
           - task: CmdLine@2
-            displayName: 'Terraform Init'
+            displayName: 'TerraformInit'
+            name: 'terraformInit'
             inputs:
               script: |
                 terraform init
@@ -55,9 +57,16 @@ stages:
 
           - task: CmdLine@2
             displayName: 'Terraform Plan'
+            name: 'terraformPlan'
             inputs:
               script: |
-                terraform plan -out ${BUILD_BUILDNUMBER}.tfplan
+                terraform plan -input=false -no-color -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
+
+                if [ $? -eq 2 ]; then
+                  echo "##vso[task.setvariable variable=planChanged;isOutput=true]true"
+                else
+                  echo "##vso[task.setvariable variable=planChanged;isOutput=true]false"
+                fi  
               workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
           - task: ArchiveFiles@2
@@ -78,7 +87,8 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               artifactName: 'cloudflare-personal-domain-plan'
 
-  - stage: 'PersonalDomainRecordsApply'
+  - stage: 'PersonalDomainRecordsManualApply'
+    condition: and(succeeded(), eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.terraformPlan.planChanged'], 'true'))
     dependsOn: 'PersonalDomainRecords'
     displayName: Personal Domain Records Apply
 
@@ -86,7 +96,7 @@ stages:
       - deployment: 'TerraformApplyPersonalDomainRecords'
         displayName: ' Apply Terraform for Personal Domain Records'
         pool: ${{ parameters.agentPool }}
-        environment: 'Cloudflare'
+        environment: 'Cloudflare - Manual Approval'
         strategy:
           runOnce:
             deploy:
@@ -109,3 +119,4 @@ stages:
                   script: |
                     terraform apply ${BUILD_BUILDNUMBER}.tfplan
                   workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
+
