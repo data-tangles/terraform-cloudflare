@@ -85,7 +85,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsManualApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: and( not(failed()), not(canceled()), eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true'))
+    condition: eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true')
     displayName: Homelab Domain Records Manual Apply
 
     jobs:
@@ -118,7 +118,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsAutoApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: and( not(failed()), not(canceled()), eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'false'))
+    condition: eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'false')
     displayName: Homelab Domain Records Auto Apply
 
     jobs:
