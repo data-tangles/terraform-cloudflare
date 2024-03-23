@@ -61,7 +61,9 @@ stages:
                 retVal=$?
                 if [ $retVal -eq 2 ]; then
                   echo "##vso[task.setvariable variable=planChanged;isOutput=true]true"
-                fi
+                else
+                  echo "##vso[task.setvariable variable=planChanged;isOutput=true]false"
+                fi 
               workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
           - task: ArchiveFiles@2
@@ -117,7 +119,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsAutoApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: and(succeeded(), ne(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.TerraformPlan.planChanged'], 'true'), 'true'))
+    condition: and(succeeded(), eq(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.TerraformPlan.planChanged'], 'true'), 'false'))
     displayName: Homelab Domain Records Auto Apply
 
     jobs:
