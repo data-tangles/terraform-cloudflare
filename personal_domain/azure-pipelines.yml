@@ -86,7 +86,7 @@ stages:
               artifactName: 'cloudflare-personal-domain-plan'
 
   - stage: 'PersonalDomainRecordsManualApply'
-    condition: and(succeeded(), eq(stageDependencies.PersonalDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true'))
+    condition: and(succeeded(), eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true'))
     dependsOn: 'PersonalDomainRecords'
     displayName: Personal Domain Records Apply
 
@@ -120,7 +120,7 @@ stages:
 
   - stage: 'PersonalDomainRecordsAutoApply'
     dependsOn: 'PersonalDomainRecords'
-    condition: and(succeeded(), eq(stageDependencies.PersonalDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'false'))
+    condition: and(succeeded(), eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'false'))
     displayName: Personal Domain Records Apply
 
     jobs:
