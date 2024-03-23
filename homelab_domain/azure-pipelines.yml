@@ -30,6 +30,7 @@ stages:
 
           - task: TerraformInstaller@1
             displayName: 'Terraform Install'
+            name: 'terraformInstall'
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
 
@@ -46,14 +47,16 @@ stages:
               enableTelemetry: false
 
           - task: CmdLine@2
-            displayName: 'TerraformInit'
+            displayName: 'Terraform Init'
+            name: 'terraformInit'
             inputs:
               script: |
                 terraform init
               workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
           - task: CmdLine@2
-            displayName: 'TerraformPlan'
+            displayName: 'Terraform Plan'
+            name: 'terraformPlan'
             inputs:
               script: |
                 terraform plan -input=false -no-color -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
@@ -85,7 +88,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsManualApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true')
+    condition: eq(dependencies.HomelabDomainRecords.outputs['terraforminitplan.terraformPlan.planChanged'], 'true')
     displayName: Homelab Domain Records Manual Apply
 
     jobs:

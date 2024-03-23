@@ -30,6 +30,7 @@ stages:
 
           - task: TerraformInstaller@1
             displayName: 'Terraform Install'
+            name: 'terraformInstall'
             inputs:
               terraformVersion: ${{ parameters.terraformVersion }}
 
@@ -48,13 +49,15 @@ stages:
 
           - task: CmdLine@2
             displayName: 'TerraformInit'
+            name: 'terraformInit'
             inputs:
               script: |
                 terraform init
               workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
           - task: CmdLine@2
-            displayName: 'TerraformPlan'
+            displayName: 'Terraform Plan'
+            name: 'terraformPlan'
             inputs:
               script: |
                 terraform plan -input=false -no-color -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
@@ -85,7 +88,7 @@ stages:
               artifactName: 'cloudflare-personal-domain-plan'
 
   - stage: 'PersonalDomainRecordsManualApply'
-    condition: eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.TerraformPlan.planChanged'], 'true')
+    condition: eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.terraformPlan.planChanged'], 'true')
     dependsOn: 'PersonalDomainRecords'
     displayName: Personal Domain Records Apply
 
