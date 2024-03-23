@@ -94,7 +94,7 @@ stages:
       - deployment: 'TerraformApplyPersonalDomainRecords'
         displayName: ' Apply Terraform for Personal Domain Records'
         pool: ${{ parameters.agentPool }}
-        environment: 'Cloudflare'
+        environment: 'Cloudflare - Manual Approval'
         strategy:
           runOnce:
             deploy:

@@ -56,7 +56,14 @@ stages:
             displayName: 'Terraform Plan'
             inputs:
               script: |
-                terraform plan -out ${BUILD_BUILDNUMBER}.tfplan
+                terraform plan -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
+
+                retVal=$?
+                if [ $retVal -eq 2 ]; then
+                  echo "##vso[task.setvariable variable=planChanged;isOutput=true]true"
+                else
+                  echo "##vso[task.setvariable variable=planChanged;isOutput=true]false"
+                fi 
               workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
           - task: ArchiveFiles@2
@@ -77,9 +84,42 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               artifactName: 'cloudflare-homelab-domain-plan'
 
-  - stage: 'HomelabDomainRecordsApply'
+  - stage: 'HomelabDomainRecordsManualApply'
     dependsOn: 'HomelabDomainRecords'
-    displayName: Homelab Domain Records Apply
+    condition: and(succeeded(), eq(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.'Terraform Plan'.planChanged'], 'true'), 'true'))
+    displayName: Homelab Domain Records Manual Apply
+
+    jobs:
+      - deployment: 'TerraformApplyHomelabDomainRecords'
+        displayName: ' Apply Terraform for Homelab Domain Records'
+        pool: ${{ parameters.agentPool }}
+        environment: 'Cloudflare - Manual Approval'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+
+              - task: TerraformInstaller@1
+                displayName: 'Terraform Install'
+                inputs:
+                  terraformVersion: ${{ parameters.terraformVersion }}
+
+              - task: ExtractFiles@1
+                displayName: 'Extract Plan Artifact'
+                inputs:
+                  archiveFilePatterns: '$(Pipeline.Workspace)/cloudflare-homelab-domain-plan/$(Build.BuildNumber).tgz'
+                  destinationFolder: '$(System.DefaultWorkingDirectory)/homelab_domain/'
+                  cleanDestinationFolder: true
+
+              - task: CmdLine@2
+                inputs:
+                  script: |
+                    terraform apply ${BUILD_BUILDNUMBER}.tfplan
+                  workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
+
+  - stage: 'HomelabDomainRecordsAutoApply'
+    dependsOn: 'HomelabDomainRecords'
+    displayName: Homelab Domain Records Auto Apply
 
     jobs:
       - deployment: 'TerraformApplyHomelabDomainRecords'
@@ -108,3 +148,5 @@ stages:
                   script: |
                     terraform apply ${BUILD_BUILDNUMBER}.tfplan
                   workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
+
+
