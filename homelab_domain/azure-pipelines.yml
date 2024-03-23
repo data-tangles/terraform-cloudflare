@@ -119,6 +119,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsAutoApply'
     dependsOn: 'HomelabDomainRecords'
+    condition: and(succeeded(), eq(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.'Terraform Plan'.planChanged'], 'true'), 'false'))
     displayName: Homelab Domain Records Auto Apply
 
     jobs:
