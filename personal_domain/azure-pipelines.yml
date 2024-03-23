@@ -150,36 +150,4 @@ stages:
                     terraform apply ${BUILD_BUILDNUMBER}.tfplan
                   workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
-  - stage: 'PersonalDomainRecordsApply'
-    condition: and(succeeded(), eq(coalesce(dependencies.PersonalDomainRecords.outputs['PersonalDomainRecords.TerraformPlan.planChanged'], 'true'), 'true'))
-    dependsOn: 'PersonalDomainRecords'
-    displayName: Personal Domain Records Apply
-              
-    jobs:
-      - deployment: 'TerraformApplyPersonalDomainRecords'
-        displayName: ' Apply Terraform for Personal Domain Records'
-        pool: ${{ parameters.agentPool }}
-        environment: 'Cloudflare'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-              
-              - task: TerraformInstaller@1
-                displayName: 'Terraform Install'
-                inputs:
-                  terraformVersion: ${{ parameters.terraformVersion }}
-              
-              - task: ExtractFiles@1
-                displayName: 'Extract Plan Artifact'
-                inputs:
-                  archiveFilePatterns: '$(Pipeline.Workspace)/cloudflare-personal-domain-plan/$(Build.BuildNumber).tgz'
-                  destinationFolder: '$(System.DefaultWorkingDirectory)/personal_domain/'
-                  cleanDestinationFolder: true
-              
-              - task: CmdLine@2
-                inputs:
-                  script: |
-                    terraform apply ${BUILD_BUILDNUMBER}.tfplan
-                  workingDirectory: '$(System.DefaultWorkingDirectory)/personal_domain/'
 
