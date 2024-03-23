@@ -1,3 +1,3 @@
 locals {
-  comment = "Managed by Terraform"
+  comment = "Managed by Terraform - Test"
 }
