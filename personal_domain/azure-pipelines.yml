@@ -88,7 +88,7 @@ stages:
               artifactName: 'cloudflare-personal-domain-plan'
 
   - stage: 'PersonalDomainRecordsManualApply'
-    condition: and(succeeded(), eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.terraformPlan.planChanged'], 'true')
+    condition: and(succeeded(), eq(dependencies.PersonalDomainRecords.outputs['terraforminitplan.terraformPlan.planChanged'], 'true'))
     dependsOn: 'PersonalDomainRecords'
     displayName: Personal Domain Records Apply
 
