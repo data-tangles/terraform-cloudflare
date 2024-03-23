@@ -46,14 +46,14 @@ stages:
               enableTelemetry: false
 
           - task: CmdLine@2
-            displayName: 'Terraform Init'
+            displayName: 'TerraformInit'
             inputs:
               script: |
                 terraform init
               workingDirectory: '$(System.DefaultWorkingDirectory)/homelab_domain/'
 
           - task: CmdLine@2
-            displayName: 'Terraform Plan'
+            displayName: 'TerraformPlan'
             inputs:
               script: |
                 terraform plan -out ${BUILD_BUILDNUMBER}.tfplan -detailed-exitcode
@@ -84,7 +84,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsManualApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: and(succeeded(), eq(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.'Terraform Plan'.planChanged'], 'true'), 'true'))
+    condition: and(succeeded(), eq(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.TerraformPlan.planChanged'], 'true'), 'true'))
     displayName: Homelab Domain Records Manual Apply
 
     jobs:
@@ -117,7 +117,7 @@ stages:
 
   - stage: 'HomelabDomainRecordsAutoApply'
     dependsOn: 'HomelabDomainRecords'
-    condition: and(succeeded(), ne(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.'Terraform Plan'.planChanged'], 'true'), 'true'))
+    condition: and(succeeded(), ne(coalesce(dependencies.HomelabDomainRecords.outputs['HomelabDomainRecords.TerraformPlan.planChanged'], 'true'), 'true'))
     displayName: Homelab Domain Records Auto Apply
 
     jobs:
