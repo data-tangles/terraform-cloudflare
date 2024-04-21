@@ -1,0 +1,84 @@
+name: Personal Domain CI
+
+on:
+  workflow_dispatch: 
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  init_and_plan:
+    name: Terraform Init and Plan
+    runs-on: ubuntu-latest
+    environment: Personal
+
+    outputs:
+      planChangedOutput: ${{ steps.terraformPlan.outputs.planChanged }}
+    steps:
+
+      - name: Checkout 🔔
+        uses: actions/checkout@v4
+
+      - name: Map Secrets to Environment Variables 🗺️ 
+        uses: oNaiPs/secrets-to-env-action@v1.5
+        with:
+            secrets: ${{ toJSON(secrets) }}        
+
+      - name: Replace Tokens 🪙
+        uses: cschleiden/replace-tokens@v1.3
+        with:
+          files: '["**/*.*"]'
+
+      - name: Install Terraform ⛰️
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        id: terraformInit
+        run: terraform init
+        working-directory: ./personal_domain
+
+      - name: Terraform Plan
+        id: terraformPlan
+        run: |
+          terraform plan -input=false -no-color -out ${{ github.run_number }}.tfplan -detailed-exitcode
+
+          if [ $? -eq 2 ]; then
+            echo "planChanged=true" >> $GITHUB_OUTPUT
+          else
+            echo "planChanged=false" >> $GITHUB_OUTPUT
+          fi 
+        working-directory: ./personal_domain
+
+      - name: Cache Terraform Plan
+        uses: actions/cache/save@v4.0.2
+        with:
+          path: ./personal_domain/${{ github.run_number }}.tfplan
+          key: ${{ github.run_number }}
+
+  apply:
+    name: Terraform Apply
+    needs:
+      - init_and_plan
+    if: needs.init_and_plan.outputs.planChangedOutput == 'true'
+    runs-on: ubuntu-latest
+    environment: "Personal - Manual Approval"
+
+    steps:
+
+      - name: Checkout 🔔
+        uses: actions/checkout@v4
+
+      - name: Restore Terraform Plan
+        uses: actions/cache/restore@v4.0.2
+        with:
+          path: ./personal_domain/${{ github.run_number }}.tfplan
+          key: ${{ github.run_number }}
+
+      - name: Install Terraform ⛰️
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Apply
+        run: terraform apply ${{ github.run_number }}.tfplan
+        working-directory: ./personal_domain
+
