@@ -6,11 +6,11 @@ terraform {
     }
   }
   backend "remote" {
-    organization = "#{backend_organization}#"
+    organization = "#{BACKEND_ORGANIZATION}#"
     workspaces {
       name = "terraform-cloudflare-homelab-domain"
     }
-    token = "#{backend_token}#"
+    token = "#{BACKEND_TOKEN}#"
   }
 }
 
