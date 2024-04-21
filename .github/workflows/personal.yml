@@ -28,7 +28,7 @@ jobs:
       - name: Replace Tokens 🪙
         uses: cschleiden/replace-tokens@v1.3
         with:
-          files: '["**/*.*"]'
+          files: '["./personal_domain/*.*"]'
 
       - name: Install Terraform ⛰️
         uses: hashicorp/setup-terraform@v3
