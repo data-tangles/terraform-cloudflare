@@ -1,7 +1,8 @@
 name: Homelab Domain CI
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
+  pull_request:
     
 permissions:
   contents: write
