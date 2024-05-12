@@ -1,6 +1,8 @@
-[![Homelab Domain CI](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/homelab.yml/badge.svg)](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/homelab.yml)
+[![Terraform Validation CI](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/validation.yml/badge.svg)](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/validation.yml)
 
-[![Personal Domain CI](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/personal.yml/badge.svg)](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/personal.yml)
+[![Homelab Domain CD](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/homelab.yml/badge.svg)](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/homelab.yml)
+
+[![Personal Domain CD](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/personal.yml/badge.svg)](https://github.com/data-tangles/terraform-cloudflare/actions/workflows/personal.yml)
 
 [![terraform](https://img.shields.io/badge/Terraform-purple?style=for-the-badge&logo=terraform)](https://www.terraform.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot)](https://github.com/renovatebot/renovate)
