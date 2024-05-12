@@ -59,8 +59,6 @@ jobs:
         author_email: "169585682+tangles-bot[bot]@users.noreply.github.com"
         message: | 
           "🤖 Automated commit for Workflow Run ID: ${{ github.run_id }} in Branch: ${{ github.head_ref }}" 
-          
-          "Changed files: $CHANGED_FILES"
 
   changelog:
     name: Generate Changelog 🗒️
