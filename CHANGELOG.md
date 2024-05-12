@@ -1,3 +1,12 @@
+## [0.1.5](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.4...v0.1.5) (2024-05-12)
+
+
+### Bug Fixes
+
+* Change Terraform Docs to bash script ([f9745ad](https://github.com/data-tangles/terraform-cloudflare/commit/f9745adad8c65584fe08dc00f6ed132db6fb6d55))
+
+
+
 ## [0.1.4](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.3...v0.1.4) (2024-05-12)
 
 
