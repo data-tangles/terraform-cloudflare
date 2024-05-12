@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.3...v0.1.4) (2024-05-12)
+
+
+### Bug Fixes
+
+* Remove changed files list ([55c04f5](https://github.com/data-tangles/terraform-cloudflare/commit/55c04f51a3491b4877a33ada507681b48dd1d59f))
+
+
+
 ## [0.1.3](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.2...v0.1.3) (2024-05-12)
 
 
