@@ -1,4 +1,13 @@
-# 0.1.0 (2024-05-12)
+## [0.1.1](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.0...v0.1.1) (2024-05-12)
+
+
+### Bug Fixes
+
+* Add additional validation steps - TFLint and Terraform fmt ([7400041](https://github.com/data-tangles/terraform-cloudflare/commit/7400041aa4881eb17b636f779e8347c217008b0a))
+
+
+
+# [0.1.0](https://github.com/data-tangles/terraform-cloudflare/compare/58d78bfc44ceb443d1614c7a58507699b0b82a65...v0.1.0) (2024-05-12)
 
 
 ### Bug Fixes
