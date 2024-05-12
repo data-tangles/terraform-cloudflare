@@ -49,6 +49,13 @@ jobs:
     - name: Check for changed files 🕵️
       uses: tj-actions/verify-changed-files@v20
       id: verify-changed-files
+      with:
+        files: | 
+          **/*.tf
+
+    - name: DEBUG - Test Git Diff
+      run: |
+        git diff
 
     - name: Commit Terraform code changes 🖊️
       if: steps.verify-changed-files.outputs.files_changed == 'true'
