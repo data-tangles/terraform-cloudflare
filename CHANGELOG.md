@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.1...v0.1.2) (2024-05-12)
+
+
+### Bug Fixes
+
+* Add manual approval into actions in place of environments ([927833d](https://github.com/data-tangles/terraform-cloudflare/commit/927833de62ba723e63bbabf7eaf1e2776dc3fc45))
+
+
+
 ## [0.1.1](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.0...v0.1.1) (2024-05-12)
 
 
