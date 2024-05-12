@@ -1,4 +1,4 @@
-name: Personal Domain CI
+name: Personal Domain CD
 
 on:
   workflow_dispatch:

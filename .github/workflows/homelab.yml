@@ -1,4 +1,4 @@
-name: Homelab Domain CI
+name: Homelab Domain CD
 
 on:
   workflow_dispatch:
