@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.2...v0.1.3) (2024-05-12)
+
+
+### Bug Fixes
+
+* add terraform fmt after tfdocs run ([faec85e](https://github.com/data-tangles/terraform-cloudflare/commit/faec85ee5664c0041f63a51ea413188ff3b9f324))
+
+
+
 ## [0.1.2](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.1...v0.1.2) (2024-05-12)
 
 
