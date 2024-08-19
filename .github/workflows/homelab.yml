@@ -33,7 +33,7 @@ jobs:
           files: '["./homelab_domain/**/*"]'
 
       - name: Install Terraform ⛰️
-        uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
 
       - name: Terraform Init 🏃
         id: terraformInit
@@ -82,7 +82,7 @@ jobs:
           key: ${{ github.sha }}
 
       - name: Install Terraform ⛰️
-        uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
 
       - name: Terraform Apply
         run: terraform apply ${{ github.sha }}.tfplan
