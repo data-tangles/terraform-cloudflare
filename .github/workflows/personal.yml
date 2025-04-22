@@ -1,18 +1,25 @@
 name: Personal Domain CD
 
 on:
-  workflow_dispatch:
   pull_request:
+    branches:
+    - "main"
+    paths:
+    - "personal_domain/**"
+  workflow_dispatch:
 
 permissions:
   contents: write
   issues: write
 
+env:
+  SOPS_VERSION: 3.9.4
+  WORKING_DIRECTORY: "./personal_domain"
+
 jobs:
   init_and_plan:
     name: Terraform Init and Plan
     runs-on: ubuntu-latest
-    environment: Personal
 
     outputs:
       planExitcode: ${{ steps.terraformPlan.outputs.exitcode }}
@@ -22,43 +29,42 @@ jobs:
       - name: Checkout 🔔
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      - name: Map Secrets to Environment Variables 🗺️ 
-        uses: oNaiPs/secrets-to-env-action@ec46a22bfc9b37e014b627b3208b07eb8909ea0f # v1.5
-        with:
-            secrets: ${{ toJSON(secrets) }}        
-
-      - name: Replace Tokens 🪙
-        uses: cschleiden/replace-tokens@4d5a042c84c3568b3858b7af9394923d2d5195c9 # v1.3
-        with:
-          files: '["./personal_domain/**/*"]'
+      - name: Decrypt SOPS encrypted variables 🪙
+        run: |
+          curl -LO https://github.com/getsops/sops/releases/download/v${{ env.SOPS_VERSION }}/sops-v${{ env.SOPS_VERSION }}.linux.amd64
+          sudo mv sops-v${{ env.SOPS_VERSION }}.linux.amd64 /usr/local/bin/sops
+          chmod +x /usr/local/bin/sops
+          export SOPS_AGE_KEY=${{ secrets.SOPS_AGE_KEY }}
+          sops --decrypt ${{ env.WORKING_DIRECTORY }}/terraform.sops.tfvars > ${{ env.WORKING_DIRECTORY }}/terraform.tfvars       
 
       - name: Install Terraform ⛰️
         uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_TOKEN }}
 
       - name: Terraform Init 🏃
         id: terraformInit
         run: terraform init
-        working-directory: ./personal_domain
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Terraform Plan 🗺️
         id: terraformPlan
         run: |
-          terraform plan -input=false -no-color -out ${{ github.sha }}.tfplan -detailed-exitcode
-        working-directory: ./personal_domain
+          terraform plan -input=false -out ${{ github.run_id }}.tfplan -detailed-exitcode
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Cache Terraform Plan 📦
-        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        uses: actions/cache/save@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
         with:
-          path: ./personal_domain/**
-          key: ${{ github.sha }}
+          path: ${{ env.WORKING_DIRECTORY }}/**
+          key: ${{ github.run_id }}
 
   apply:
     name: Terraform Apply
     needs:
       - init_and_plan
-    if: needs.init_and_plan.outputs.planExitcode == 2
+    if: github.event_name != 'pull_request' && needs.init_and_plan.outputs.planExitcode == 2
     runs-on: ubuntu-latest
-    environment: Personal
 
     steps:
 
@@ -68,23 +74,24 @@ jobs:
           secret: ${{ github.TOKEN }}
           approvers: data-tangles
           minimum-approvals: 1
-          issue-title: "Terraform Apply"
+          issue-title: "Terraform Apply - ${{ github.workflow }}"
           issue-body: "Please approve or deny the Terraform Apply operation"
           exclude-workflow-initiator-as-approver: false
 
       - name: Checkout 🔔
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      - name: Restore Terraform Plan
-        uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      - name: Restore Terraform Plan 🗺️
+        uses: actions/cache/restore@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4.2.1
         with:
-          path: ./personal_domain/**
-          key: ${{ github.sha }}
+          path: ${{ env.WORKING_DIRECTORY }}/**
+          key: ${{ github.run_id }}
 
       - name: Install Terraform ⛰️
         uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_TOKEN }}
 
-      - name: Terraform Apply
-        run: terraform apply ${{ github.sha }}.tfplan
-        working-directory: ./personal_domain
-
+      - name: Terraform Apply 🚀
+        run: terraform apply ${{ github.run_id }}.tfplan
+        working-directory: ${{ env.WORKING_DIRECTORY }}

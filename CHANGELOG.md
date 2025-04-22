@@ -1,3 +1,35 @@
+## [0.2.2](https://github.com/data-tangles/terraform-cloudflare/compare/v0.2.1...v0.2.2) (2025-04-22)
+
+
+### Bug Fixes
+
+* update Cloudflare provider version to >= 5 and remove outdated lock files ([e398c39](https://github.com/data-tangles/terraform-cloudflare/commit/e398c39bfb4dc3a7318a40195c2ea1ce45e954df))
+
+
+
+## [0.2.1](https://github.com/data-tangles/terraform-cloudflare/compare/v0.2.0...v0.2.1) (2025-04-22)
+
+
+### Bug Fixes
+
+* remove unused token variable and ensure proper Cloudflare provider configuration ([f6caddf](https://github.com/data-tangles/terraform-cloudflare/commit/f6caddf7f4a434ce74fd271c8d02c64b329e7d65))
+
+
+
+# [0.2.0](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.4...v0.2.0) (2025-04-22)
+
+
+### Bug Fixes
+
+* update workflow name from 'Homelab Domain CD' to 'Personal Domain CD' ([1b76c1a](https://github.com/data-tangles/terraform-cloudflare/commit/1b76c1ae3ac625d0a7233df54a1f7e8735ee9df8))
+
+
+### Features
+
+* add Terraform token configuration and clean up provider files ([3d6f32d](https://github.com/data-tangles/terraform-cloudflare/commit/3d6f32db9890e657fd77c8202afc374788d7f0fb))
+
+
+
 ## [0.1.4](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.3...v0.1.4) (2024-05-12)
 
 
