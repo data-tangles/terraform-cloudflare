@@ -1,3 +1,17 @@
+# [0.2.0](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.4...v0.2.0) (2025-04-22)
+
+
+### Bug Fixes
+
+* update workflow name from 'Homelab Domain CD' to 'Personal Domain CD' ([1b76c1a](https://github.com/data-tangles/terraform-cloudflare/commit/1b76c1ae3ac625d0a7233df54a1f7e8735ee9df8))
+
+
+### Features
+
+* add Terraform token configuration and clean up provider files ([3d6f32d](https://github.com/data-tangles/terraform-cloudflare/commit/3d6f32db9890e657fd77c8202afc374788d7f0fb))
+
+
+
 ## [0.1.4](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.3...v0.1.4) (2024-05-12)
 
 
