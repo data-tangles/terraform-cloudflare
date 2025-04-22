@@ -10,7 +10,6 @@ terraform {
     workspaces {
       name = "terraform-cloudflare-personal-domain"
     }
-    token = var.terraform_cloud_token
   }
 }
 
@@ -18,4 +17,6 @@ terraform {
   required_version = ">= 1.0"
 }
 
-provider "cloudflare" {}
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
