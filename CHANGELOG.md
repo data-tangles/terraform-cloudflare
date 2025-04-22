@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/data-tangles/terraform-cloudflare/compare/v0.2.0...v0.2.1) (2025-04-22)
+
+
+### Bug Fixes
+
+* remove unused token variable and ensure proper Cloudflare provider configuration ([f6caddf](https://github.com/data-tangles/terraform-cloudflare/commit/f6caddf7f4a434ce74fd271c8d02c64b329e7d65))
+
+
+
 # [0.2.0](https://github.com/data-tangles/terraform-cloudflare/compare/v0.1.4...v0.2.0) (2025-04-22)
 
 
