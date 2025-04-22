@@ -6,11 +6,11 @@ terraform {
     }
   }
   backend "remote" {
-    organization = "#{BACKEND_ORGANIZATION}#"
+    organization = "binarybraids"
     workspaces {
       name = "terraform-cloudflare-personal-domain"
     }
-    token = "#{BACKEND_TOKEN}#"
+    token = var.terraform_cloud_token
   }
 }
 

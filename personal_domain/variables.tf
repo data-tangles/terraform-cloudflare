@@ -1,3 +1,8 @@
+variable "terraform_cloud_token" {
+  type        = string
+  description = "Terraform Cloud Token"
+}
+
 variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token"
