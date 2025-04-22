@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/data-tangles/terraform-cloudflare/compare/v0.2.1...v0.2.2) (2025-04-22)
+
+
+### Bug Fixes
+
+* update Cloudflare provider version to >= 5 and remove outdated lock files ([e398c39](https://github.com/data-tangles/terraform-cloudflare/commit/e398c39bfb4dc3a7318a40195c2ea1ce45e954df))
+
+
+
 ## [0.2.1](https://github.com/data-tangles/terraform-cloudflare/compare/v0.2.0...v0.2.1) (2025-04-22)
 
 
