@@ -1,4 +1,4 @@
-name: Homelab Domain CD
+name: Personal Domain CD
 
 on:
   pull_request:
