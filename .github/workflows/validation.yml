@@ -82,19 +82,19 @@ jobs:
           terraform-docs markdown table --output-file README.md "$folder"
         done
 
-        - name: Commit and push changes if README.md updated
-        run: |
-          git config --global user.name "${{ env.GIT_USER_NAME }}"
-          git config --global user.email "${{ env.GIT_USER_EMAIL }}"
-          
-          # Check for changes
-          if [[ -n $(git status --porcelain) ]]; then
-            git add .
-            git commit -m "chore(docs): update Terraform module documentation"
-            git push
-          else
-            echo "No changes to commit."
-          fi
+    - name: Commit and push changes if README.md updated
+      run: |
+        git config --global user.name "${{ env.GIT_USER_NAME }}"
+        git config --global user.email "${{ env.GIT_USER_EMAIL }}"
+        
+        # Check for changes
+        if [[ -n $(git status --porcelain) ]]; then
+          git add .
+          git commit -m "chore(docs): update Terraform module documentation"
+          git push
+        else
+          echo "No changes to commit."
+        fi
 
     - name: Conventional Changelog Action 📋
       id: changelog
