@@ -1,6 +1,11 @@
 name: Personal Domain CD
 
 on:
+  push:
+    branches:
+    - "main"
+    paths:
+    - "personal_domain/**"
   pull_request:
     branches:
     - "main"
