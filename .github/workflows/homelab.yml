@@ -1,6 +1,11 @@
 name: Homelab Domain CD
 
 on:
+  push:
+    branches:
+    - "main"
+    paths:
+    - "homelab_domain/**"
   pull_request:
     branches:
     - "main"

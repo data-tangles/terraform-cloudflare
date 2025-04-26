@@ -62,6 +62,16 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
         token: ${{ steps.generate-token.outputs.token }}
 
+    - name: Generate tf-docs 📜
+      uses: terraform-docs/gh-actions@v1.4.1
+      with:
+        output-file: README.md
+        git-push: true
+        output-method: replace
+        recursive: true
+        git-push-user-email: "169585682+tangles-bot[bot]@users.noreply.github.com"
+        git-push-user-name: "tangles-bot[bot]"
+
     - name: Conventional Changelog Action 📋
       id: changelog
       uses: TriPSs/conventional-changelog-action@3a392e9aa44a72686b0fc13259a90d287dd0877c # v5
