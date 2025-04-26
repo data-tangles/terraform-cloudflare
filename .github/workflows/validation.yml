@@ -96,7 +96,7 @@ jobs:
         if [[ -n $(git status --porcelain) ]]; then
           git add .
           git commit -m "chore(docs): update Terraform module documentation"
-          git push
+          git push https://x-access-token:${{ steps.generate-token.outputs.token }}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
         else
           echo "No changes to commit."
         fi
@@ -105,7 +105,7 @@ jobs:
       id: changelog
       uses: TriPSs/conventional-changelog-action@3c4970b6573374889b897403d2f1278c395ea0df # v5
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ steps.generate-token.outputs.token }}
         git-user-name: "${{ env.GIT_USER_NAME }}"
         git-user-email: "${{ env.GIT_USER_EMAIL }}"
         git-branch: "${{ github.head_ref }}"
