@@ -63,7 +63,7 @@ jobs:
         token: ${{ steps.generate-token.outputs.token }}
 
     - name: Generate tf-docs 📜
-      uses: terraform-docs/gh-actions@v1.4.1
+      uses: terraform-docs/gh-actions@6de6da0cefcc6b4b7a5cbea4d79d97060733093c # v1.4.1
       with:
         output-file: README.md
         git-push: true
