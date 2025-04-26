@@ -7,11 +7,14 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - .github/**
 
 permissions:
   contents: write
+
+env:
+  TF_DOCS_VERSION: 0.20.0
+  GIT_USER_NAME: "tangles-bot[bot]"
+  GIT_USER_EMAIL: "169585682+tangles-bot[bot]@users.noreply.github.com"
 
 jobs:
   validation:
@@ -62,23 +65,44 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
         token: ${{ steps.generate-token.outputs.token }}
 
-    - name: Generate tf-docs 📜
-      uses: terraform-docs/gh-actions@v1.4.1
-      with:
-        output-file: README.md
-        git-push: true
-        output-method: replace
-        recursive: true
-        git-push-user-email: "169585682+tangles-bot[bot]@users.noreply.github.com"
-        git-push-user-name: "tangles-bot[bot]"
+    - name: Download and install Terraform Docs
+      run: |
+        curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v${{ env.TF_DOCS_VERSION}}/terraform-docs-v${{ env.TF_DOCS_VERSION}}-$(uname)-amd64.tar.gz
+        tar -xzf terraform-docs.tar.gz
+        chmod +x terraform-docs
+        mv terraform-docs /usr/local/bin/terraform-docs
+
+    - name: Generate Terraform Docs 🗒️
+      run: |
+        # Get folders which contain .tf files
+        folder_list=$(find . -name '*.tf' -printf '%h\n' | sort -u)
+      
+        # Run terraform-docs command for each subfolder
+        for folder in $folder_list; do
+          terraform-docs markdown table --output-file README.md "$folder"
+        done
+
+        - name: Commit and push changes if README.md updated
+        run: |
+          git config --global user.name "${{ env.GIT_USER_NAME }}"
+          git config --global user.email "${{ env.GIT_USER_EMAIL }}"
+          
+          # Check for changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "chore(docs): update Terraform module documentation"
+            git push
+          else
+            echo "No changes to commit."
+          fi
 
     - name: Conventional Changelog Action 📋
       id: changelog
       uses: TriPSs/conventional-changelog-action@3a392e9aa44a72686b0fc13259a90d287dd0877c # v5
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        git-user-name: "tangles-bot[bot]"
-        git-user-email: "169585682+tangles-bot[bot]@users.noreply.github.com"
+        git-user-name: "${{ env.GIT_USER_NAME }}"
+        git-user-email: "${{ env.GIT_USER_EMAIL }}"
         git-branch: "${{ github.head_ref }}"
         skip-on-empty: "true"
         skip-ci: "false"
