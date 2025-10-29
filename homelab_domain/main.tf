@@ -29,6 +29,17 @@ resource "cloudflare_dns_record" "a_record_3" {
   comment = local.comment
 }
 
+# CNAME Records
+resource "cloudflare_dns_record" "cname_record_1" {
+  zone_id = var.cloudflare_zone_id
+  name    = var.cname_record_1_name
+  content = var.cname_record_1_value
+  type    = "CNAME"
+  ttl     = 1
+  proxied = "true"
+  comment = local.comment
+}
+
 # MX Records
 resource "cloudflare_dns_record" "mx_record_1" {
   zone_id  = var.cloudflare_zone_id

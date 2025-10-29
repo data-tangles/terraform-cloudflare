@@ -38,6 +38,16 @@ variable "a_record_3_value" {
   description = "Value of A record"
 }
 
+variable "cname_record_1_name" {
+  type        = string
+  description = "Name of CNAME record"
+}
+
+variable "cname_record_1_value" {
+  type        = string
+  description = "Value of CNAME record"
+}
+
 variable "mx_record_1_name" {
   type        = string
   description = "Name of MX record"
