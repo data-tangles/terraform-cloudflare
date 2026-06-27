@@ -74,7 +74,7 @@ jobs:
     steps:
 
       - name: Manual Approval 🚦
-        uses: trstringer/manual-approval@9f5e5d6bc511762e17f849775a3c56bdea6b4493 # v1
+        uses: trstringer/manual-approval@fa642940caf8412403569b28b2db4a1df08a83a3 # v1
         with:
           secret: ${{ github.TOKEN }}
           approvers: data-tangles
