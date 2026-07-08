@@ -103,7 +103,7 @@ jobs:
 
     - name: Conventional Changelog Action 📋
       id: changelog
-      uses: TriPSs/conventional-changelog-action@84dadaf2c367cb52af02737cd9c7e888807219e7 # v6
+      uses: TriPSs/conventional-changelog-action@ee43def3241429afddab215ba89090cbf64fb45c # v6
       with:
         github-token: ${{ steps.generate-token.outputs.token }}
         git-user-name: "${{ env.GIT_USER_NAME }}"
